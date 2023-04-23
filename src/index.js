@@ -9,20 +9,19 @@ async function fetchFile(path) {
     try {
         const encoding = 'utf-8';
         const text = await fs.promises.readFile(path)
-        //console.log(chalk.bgBlackBright.cyan(text))
         return text.toString();
     } catch (error) {
         handleError(error)
     }
 }
 
-function extractLinks(text) {
+async function extractLinks(path) {
+    const text = await fetchFile(path)
     const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^^\s]*)\)/gm;
     const links = [...text.matchAll(regex)]
     const extractedLinks = links.map((item) => ({ [item[1]]: item[2] }));
-    return extractedLinks;
+    return extractedLinks.length !== 0 ? extractedLinks : 'Não há links no arquivo.';
 }
 
-const extractedLinks = extractLinks(await fetchFile('./arquivos/texto.md'))
-console.log(extractedLinks)
 
+export default extractLinks
