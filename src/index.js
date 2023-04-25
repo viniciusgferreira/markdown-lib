@@ -15,7 +15,7 @@ async function fetchFile(path) {
     }
 }
 
-async function extractLinks(path) {
+async function extractLinksFromFile(path) {
     const text = await fetchFile(path)
     const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^^\s]*)\)/gm;
     const links = [...text.matchAll(regex)]
@@ -24,4 +24,4 @@ async function extractLinks(path) {
 }
 
 
-export default extractLinks
+export default extractLinksFromFile
